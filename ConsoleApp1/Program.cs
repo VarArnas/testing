@@ -29,15 +29,13 @@ class Program
             qty.SendKeys("5000");
 
 
-            IWebElement cart = wait.Until(d => {
-                var element = d.FindElement(By.XPath("//input[@type='button'][@id='add-to-cart-button-4']"));
-                return element.Displayed && element.Enabled ? element : null;
-            });
+            IWebElement cart = driver.FindElement(By.XPath("//input[@type='button'][@id='add-to-cart-button-4']"));
             cart.Click();
 
-            IWebElement wish = wait.Until(d => {
-                var element = d.FindElement(By.XPath("//input[@type='button'][@value='Add to wishlist']"));
-                return element.Displayed && element.Enabled ? element : null;
+            IWebElement wish = wait.Until(d =>
+            {
+                var element = d.FindElement(By.XPath("//div[@class='master-wrapper-content']/div[@class='ajax-loading-block-window']"));
+                return !element.Displayed ? d.FindElement(By.XPath("//input[@type='button'][@id='add-to-wishlist-button-4']")) : null;
             });
             wish.Click();
 
