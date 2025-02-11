@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.DevTools.V130.FedCm;
+using OpenQA.Selenium.DevTools.V130.Overlay;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using System.Reflection.Metadata.Ecma335;
@@ -235,5 +236,83 @@ public sealed class BrowserSequences
         {
             Console.WriteLine("Went back to the first page");
         }
+    }
+
+    public void lab4_create_acc()
+    {
+        _driver.Navigate().GoToUrl("https://demowebshop.tricentis.com/");
+
+        _driver.FindElement(By.XPath("//a[@href='/login'][@class='ico-login']")).Click();
+
+        _driver.FindElement(By.XPath("//div[@class='new-wrapper register-block']//input[@type='button' and @value='Register']")).Click();
+
+        _driver.FindElement(By.XPath("//div[@class='page registration-page']//input[@id='FirstName']")).SendKeys("Name");
+
+        _driver.FindElement(By.XPath("//div[@class='page registration-page']//input[@id='LastName']")).SendKeys("Last NAme");
+
+        string uniqueEmail = $"testuser{DateTime.Now.Ticks}@example.com";
+        string password = "12345AAa.";
+
+        _driver.FindElement(By.XPath("//div[@class='page registration-page']//input[@id='Email']")).SendKeys(uniqueEmail);
+
+        _driver.FindElement(By.XPath("//div[@class='fieldset'][descendant::label[@for='Password']]//input[preceding-sibling::label[@for='Password']]")).SendKeys(password);
+
+        _driver.FindElement(By.XPath("//div[@class='fieldset'][descendant::label[@for='Password']]//input[preceding-sibling::label[@for='ConfirmPassword']]")).SendKeys(password);
+
+        _driver.FindElement(By.XPath("//div[@class='page-body']//input[@type='submit']")).Click();
+
+        _driver.FindElement(By.XPath("//div[@class='page-body']//input[@type='button' and @value='Continue']")).Click();
+
+        string filePath = Path.Combine(Directory.GetCurrentDirectory(), "info/login.txt");
+        File.WriteAllText(filePath, String.Empty);
+        using (StreamWriter outputFile = new StreamWriter(filePath))
+        {
+            outputFile.WriteLine(uniqueEmail);
+            outputFile.WriteLine(password);
+        }
+
+    }
+
+    public void lab4_test1()
+    {
+        StreamReader sr = new StreamReader(Path.Combine(Directory.GetCurrentDirectory(), "info/login.txt"));
+        string email = sr.ReadLine()!;
+        string password = sr.ReadLine()!;
+
+        List<string> products = new List<string>();
+        var linesRead = File.ReadLines(Path.Combine(Directory.GetCurrentDirectory(), "info/data1.txt"));
+        foreach (var line in linesRead) 
+        { 
+            products.Add(line.Trim());
+        }
+
+        _driver.Navigate().GoToUrl("https://demowebshop.tricentis.com/");
+
+        _driver.FindElement(By.XPath("//a[@href='/login'][@class='ico-login']")).Click();
+
+        _driver.FindElement(By.XPath("//form[@action='/login'][@method='post']//input[@id='Email' and preceding-sibling::label[@for='Email']]")).SendKeys(email);
+
+        _driver.FindElement(By.XPath("//form[@action='/login'][@method='post']//input[@id='Password' and preceding-sibling::label[@for='Password']]")).SendKeys(password);
+
+        _driver.FindElement(By.XPath("//div[@class='buttons']/input[@type='submit' and @value='Log in']")).Click();
+
+        _driver.FindElement(By.XPath("//a[@href='/digital-downloads']")).Click();
+
+        foreach(var product in products)
+        {
+            Console.WriteLine(product);
+            _wait.Until(d =>
+            {
+                var element = d.FindElement(By.XPath("//div[@class='master-wrapper-content']/div[@class='ajax-loading-block-window']"));
+                //Console.WriteLine("done loading!!1");
+                return !element.Displayed ? d.FindElement(By.XPath($"//div[@class='product-grid']//h2[descendant::a[text()='{product}']]//following-sibling::div[@class='add-info']//input[@type='button' and @value='Add to cart']")) : null;
+            }).Click();
+            //Console.WriteLine("found and clicked!!");
+        }
+    }
+
+    public void lab4_test2() 
+    {
+        
     }
 }
