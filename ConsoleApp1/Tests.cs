@@ -71,22 +71,35 @@ public class Tests
         _driver.FindElement(By.XPath("//input[@id='BillingNewAddress_PhoneNumber' and @type='text']")).SendKeys("+65454638542");
 
         _driver.FindElement(By.XPath("//input[@type='button' and @title='Continue']")).Click();
+
         //payment
         _wait.Until(d =>
         {
             var element = d.FindElement(By.XPath("//span[@class='please-wait' and @id='billing-please-wait']"));
             return !element.Displayed ? d.FindElement(By.XPath("//input[@type='button' and @onclick='PaymentMethod.save()']")) : null;
         }).Click();
-        Console.ReadLine();
+
         _wait.Until(d =>
         {
-            var element = d.FindElement(By.XPath("//span[@class='please-wait' and @id='billing-please-wait']"));
+            var element = d.FindElement(By.XPath("//span[@class='please-wait' and @id='payment-method-please-wait']"));
             return !element.Displayed ? d.FindElement(By.XPath("//input[@type='button' and @onclick='PaymentInfo.save()']")) : null;
         }).Click();
 
-        _driver.FindElement(By.XPath("//input[@type='button' and @onclick='ConfirmOrder.save()']")).Click();
+        _wait.Until(d =>
+        {
+            var element = d.FindElement(By.XPath("//span[@class='please-wait' and @id='payment-info-please-wait']"));
+            return !element.Displayed ? d.FindElement(By.XPath("//input[@type='button' and @onclick='ConfirmOrder.save()']")) : null;
+        }).Click();
 
-        string orderNr = _driver.FindElement(By.XPath("//div[@class='section order-completed']//ul[@class='details']/li[1]")).Text.Trim();
+        Thread.Sleep(1000);
+        string orderNr = _wait.Until(d =>
+        {
+            var element = d.FindElement(By.XPath("//span[@class='please-wait' and @id='confirm-order-please-wait']"));
+            return !element.Displayed ? d.FindElement(By.XPath("//div[@class='section order-completed']//ul[@class='details']/li[1]")) : null;
+        }).Text.Trim();
+
+        Console.WriteLine("afa");
+
 
         if (orderNr.Length > 0)
         {
