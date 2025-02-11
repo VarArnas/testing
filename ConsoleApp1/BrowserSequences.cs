@@ -273,44 +273,6 @@ public sealed class BrowserSequences
 
     }
 
-    public void lab4_test1()
-    {
-        StreamReader sr = new StreamReader(Path.Combine(Directory.GetCurrentDirectory(), "info/login.txt"));
-        string email = sr.ReadLine()!;
-        string password = sr.ReadLine()!;
-
-        List<string> products = new List<string>();
-        var linesRead = File.ReadLines(Path.Combine(Directory.GetCurrentDirectory(), "info/data1.txt"));
-        foreach (var line in linesRead) 
-        { 
-            products.Add(line.Trim());
-        }
-
-        _driver.Navigate().GoToUrl("https://demowebshop.tricentis.com/");
-
-        _driver.FindElement(By.XPath("//a[@href='/login'][@class='ico-login']")).Click();
-
-        _driver.FindElement(By.XPath("//form[@action='/login'][@method='post']//input[@id='Email' and preceding-sibling::label[@for='Email']]")).SendKeys(email);
-
-        _driver.FindElement(By.XPath("//form[@action='/login'][@method='post']//input[@id='Password' and preceding-sibling::label[@for='Password']]")).SendKeys(password);
-
-        _driver.FindElement(By.XPath("//div[@class='buttons']/input[@type='submit' and @value='Log in']")).Click();
-
-        _driver.FindElement(By.XPath("//a[@href='/digital-downloads']")).Click();
-
-        foreach(var product in products)
-        {
-            Console.WriteLine(product);
-            _wait.Until(d =>
-            {
-                var element = d.FindElement(By.XPath("//div[@class='master-wrapper-content']/div[@class='ajax-loading-block-window']"));
-                //Console.WriteLine("done loading!!1");
-                return !element.Displayed ? d.FindElement(By.XPath($"//div[@class='product-grid']//h2[descendant::a[text()='{product}']]//following-sibling::div[@class='add-info']//input[@type='button' and @value='Add to cart']")) : null;
-            }).Click();
-            //Console.WriteLine("found and clicked!!");
-        }
-    }
-
     public void lab4_test2() 
     {
         

@@ -5,31 +5,32 @@ using OpenQA.Selenium.Support.UI;
 
 class Program
 {
+
+    static IWebDriver? driver = null; 
+    static IWebDriver? testDriver = null;
     static void Main()
     {
-        IWebDriver driver = new ChromeDriver();
-        driver.Manage().Window.Maximize(); 
+        driver = new ChromeDriver();
+        driver.Manage().Window.Maximize();
         WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
         BrowserSequences sequences = new BrowserSequences(driver, wait);
 
         Console.CancelKeyPress += (sender, e) =>
         {
-            Console.WriteLine("\nShutting down");
-            driver.Quit(); 
+            Console.WriteLine("\nShutting down...");
+
+            driver?.Quit(); 
+            testDriver?.Quit(); 
+
             e.Cancel = true; 
         };
 
         try
         {
-            //sequences.lab2();
-            //sequences.lab3_1();
-            //sequences.lab3_2();
             sequences.lab4_create_acc();
             driver.Quit();
 
-            Thread.Sleep(1000);
-
-            IWebDriver testDriver = new ChromeDriver();
+            testDriver = new ChromeDriver();
             WebDriverWait testWait = new WebDriverWait(testDriver, TimeSpan.FromSeconds(10));
             testDriver.Manage().Window.Maximize();
             Tests tests = new Tests(testDriver, testWait);
@@ -40,7 +41,8 @@ class Program
         }
         finally
         {
-            driver.Quit();
+            driver?.Quit();
+            testDriver?.Quit();
         }
     }
 }
