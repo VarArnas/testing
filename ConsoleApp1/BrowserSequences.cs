@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.DevTools.V130.FedCm;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using System.Reflection.Metadata.Ecma335;
 
@@ -46,7 +47,12 @@ public sealed class BrowserSequences
         });
         wish.Click();
 
-        IWebElement jewelry = _driver.FindElement(By.XPath("//a[@href='/jewelry']"));
+        IWebElement jewelry = _wait.Until(d =>
+        {
+            var element = d.FindElement(By.XPath("//div[@id='bar-notification']"));
+            return !element.Displayed ? d.FindElement(By.XPath("//a[@href='/jewelry']")) : null;
+        });
+        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", jewelry);
         jewelry.Click();
 
         IWebElement createJewelry = _driver.FindElement(By.XPath("//a[@href='/create-it-yourself-jewelry']"));
@@ -110,6 +116,7 @@ public sealed class BrowserSequences
             var element = d.FindElement(By.XPath("//ul[@class='menu-list']/child::li[@id='item-4' and child::span[text()='Progress Bar']]"));
             return element.Displayed && element.Enabled ? element : null;
         });
+        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", progressBar);
         progressBar.Click();
 
         IWebElement start = _driver.FindElement(By.XPath("//div[@id='progressBarContainer']/child::button[@id='startStopButton']"));
@@ -146,6 +153,7 @@ public sealed class BrowserSequences
         _driver.Navigate().GoToUrl("https://demoqa.com/");
 
         IWebElement elements = _driver.FindElement(By.XPath("//div[@class='card mt-4 top-card'][descendant::h5[text()='Elements']]"));
+        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", elements);
         elements.Click();
 
         IWebElement webTables = _wait.Until(d =>
@@ -196,16 +204,16 @@ public sealed class BrowserSequences
         }
 
         IWebElement next = _driver.FindElement(By.XPath("//div[@class='-pagination']/div[@class='-next']/button"));
-        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", next);
+        IWebElement random = _driver.FindElement(By.XPath("//div[@class='col-12 mt-4 col-md-6']"));
+        random.Click();
+        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", next);
         next.Click();
 
-
         var totalPages = Convert.ToInt32(_driver.FindElement(By.XPath("//div[@class='-pagination']//span[@class='-totalPages']")).Text.Trim());
-
         IWebElement delete = _wait.Until(d =>
         {
             var element = d.FindElement(By.XPath("//div[@class='-pagination']/div[@class='-next']/button"));
-            return !element.Enabled ? d.FindElement(By.XPath("//div[@class='action-buttons']/span[@id='delete-record-11']")) : null;
+            return !element.Enabled ? d.FindElement(By.XPath("//div[@class='rt-tbody']/div[@class='rt-tr-group'][1]//div[@class='action-buttons']/span[@title='Delete']")) : null;
         });
         ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", delete);
         delete.Click();
