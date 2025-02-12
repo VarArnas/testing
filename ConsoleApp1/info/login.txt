@@ -1,6 +1,0 @@
-<<<<<<< HEAD
-testuser638748860632843386@example.com
-=======
-testuser638749586895630436@example.com
->>>>>>> 574d34fab6936926a591eab912a1dd9777bfc092
-12345AAa.

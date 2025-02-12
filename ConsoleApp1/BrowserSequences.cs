@@ -234,39 +234,4 @@ public sealed class BrowserSequences
             Console.WriteLine("Went back to the first page");
         }
     }
-
-    public void lab4_create_acc()
-    {
-        _driver.Navigate().GoToUrl("https://demowebshop.tricentis.com/");
-
-        _driver.FindElement(By.XPath("//a[@href='/login'][@class='ico-login']")).Click();
-
-        _driver.FindElement(By.XPath("//div[@class='new-wrapper register-block']//input[@type='button' and @value='Register']")).Click();
-
-        _driver.FindElement(By.XPath("//div[@class='page registration-page']//input[@id='FirstName']")).SendKeys("Name");
-
-        _driver.FindElement(By.XPath("//div[@class='page registration-page']//input[@id='LastName']")).SendKeys("Last NAme");
-
-        string uniqueEmail = $"testuser{DateTime.Now.Ticks}@example.com";
-        string password = "12345AAa.";
-
-        _driver.FindElement(By.XPath("//div[@class='page registration-page']//input[@id='Email']")).SendKeys(uniqueEmail);
-
-        _driver.FindElement(By.XPath("//div[@class='fieldset'][descendant::label[@for='Password']]//input[preceding-sibling::label[@for='Password']]")).SendKeys(password);
-
-        _driver.FindElement(By.XPath("//div[@class='fieldset'][descendant::label[@for='Password']]//input[preceding-sibling::label[@for='ConfirmPassword']]")).SendKeys(password);
-
-        _driver.FindElement(By.XPath("//div[@class='page-body']//input[@type='submit']")).Click();
-
-        _driver.FindElement(By.XPath("//div[@class='page-body']//input[@type='button' and @value='Continue']")).Click();
-
-        string filePath = Path.Combine(Directory.GetCurrentDirectory(), "info/login.txt");
-        File.WriteAllText(filePath, String.Empty);
-        using (StreamWriter outputFile = new StreamWriter(filePath))
-        {
-            outputFile.WriteLine(uniqueEmail);
-            outputFile.WriteLine(password);
-        }
-
-    }
 }
