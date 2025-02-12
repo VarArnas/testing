@@ -1,9 +1,5 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.DevTools.V130.FedCm;
-using OpenQA.Selenium.DevTools.V130.Overlay;
-using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
-using System.Reflection.Metadata.Ecma335;
 
 namespace ConsoleApp1;
 
@@ -110,6 +106,7 @@ public sealed class BrowserSequences
         _driver.Navigate().GoToUrl("https://demoqa.com/");
 
         IWebElement widget = _driver.FindElement(By.XPath("//div[@class='card mt-4 top-card'][descendant::h5[text()='Widgets']]"));
+        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", widget);
         widget.Click();
 
         IWebElement progressBar = _wait.Until(d =>
@@ -271,10 +268,5 @@ public sealed class BrowserSequences
             outputFile.WriteLine(password);
         }
 
-    }
-
-    public void lab4_test2() 
-    {
-        
     }
 }
