@@ -21,7 +21,7 @@ public sealed class BrowserSequences
         IWebElement loginButton = _driver.FindElement(By.XPath("//a[@href='/gift-cards']"));
         loginButton.Click();
 
-        IWebElement giftcard = _driver.FindElement(By.XPath("//div[@class='product-grid']//div[@class='item-box'][.//span[@class='price actual-price'][number(normalize-space()) > 99]]//a"));
+        IWebElement giftcard = _driver.FindElement(By.XPath("//div[@class='details'][descendant::span[@class='price actual-price'][number(normalize-space()) > 99]]//a"));
         giftcard.Click();
 
         IWebElement recipient = _driver.FindElement(By.XPath("//div[@class='giftcard']//input[@class='recipient-name']"));
@@ -30,7 +30,7 @@ public sealed class BrowserSequences
         IWebElement yours = _driver.FindElement(By.XPath("//div[@class='giftcard']//input[@class='sender-name']"));
         yours.SendKeys("lala");
 
-        IWebElement qty = _driver.FindElement(By.XPath("//div[@class='add-to-cart']//div[@class='add-to-cart-panel']//descendant::input[@type='text']"));
+        IWebElement qty = _driver.FindElement(By.XPath("//div[@class='add-to-cart']//div[@class='add-to-cart-panel']/descendant::input[@type='text']"));
         qty.Clear();
         qty.SendKeys("5000");
 
@@ -91,7 +91,7 @@ public sealed class BrowserSequences
             element.Click();
         }
 
-        IWebElement finalCart = _driver.FindElement(By.XPath("//div[@class='wishlist-content']/descendant::div[@class='common-buttons']/child::input[@name='addtocartbutton']"));
+        IWebElement finalCart = _driver.FindElement(By.XPath("//div[@class='wishlist-content']/descendant::div[@class='common-buttons']/input[@name='addtocartbutton']"));
         finalCart.Click();
 
         IWebElement finalPrice = _driver.FindElement(By.XPath("//table[@class='cart-total']/descendant::td[@class='cart-total-right']/descendant::span[@class='product-price order-total']/child::strong"));
