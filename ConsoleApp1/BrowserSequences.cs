@@ -1,9 +1,5 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.DevTools.V130.FedCm;
-using OpenQA.Selenium.DevTools.V130.Overlay;
-using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
-using System.Reflection.Metadata.Ecma335;
 
 namespace ConsoleApp1;
 
@@ -271,10 +267,5 @@ public sealed class BrowserSequences
             outputFile.WriteLine(password);
         }
 
-    }
-
-    public void lab4_test2() 
-    {
-        
     }
 }
