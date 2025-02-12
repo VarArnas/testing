@@ -28,7 +28,7 @@ class Program
         {
             //sequences.lab2();
             //sequences.lab3_1();
-            sequences.lab3_2();
+            //sequences.lab3_2();
 
             Console.ReadLine();
         }
