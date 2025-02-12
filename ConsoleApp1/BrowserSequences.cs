@@ -111,19 +111,19 @@ public sealed class BrowserSequences
 
         IWebElement progressBar = _wait.Until(d =>
         {
-            var element = d.FindElement(By.XPath("//ul[@class='menu-list']/child::li[@id='item-4' and child::span[text()='Progress Bar']]"));
+            var element = d.FindElement(By.XPath("//li[@id='item-4' and span[text()='Progress Bar']]"));
             return element.Displayed && element.Enabled ? element : null;
         });
         ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", progressBar);
         progressBar.Click();
 
-        IWebElement start = _driver.FindElement(By.XPath("//div[@id='progressBarContainer']/child::button[@id='startStopButton']"));
+        IWebElement start = _driver.FindElement(By.XPath("//div[@id='progressBarContainer']/button[@id='startStopButton']"));
         start.Click();
 
         IWebElement reset = _wait.Until(d =>
         {
-            var element = d.FindElement(By.XPath("//div[@id='progressBarContainer']/child::div[@id='progressBar']/child::div[@role='progressbar']"));
-            return element.Text.Trim() == "100%" ? d.FindElement(By.XPath("//div[@id='progressBarContainer']/child::button[@id='resetButton']")) : null;
+            var element = d.FindElement(By.XPath("//div[@id='progressBar']/div[@role='progressbar']"));
+            return element.Text.Trim() == "100%" ? d.FindElement(By.XPath("//div[@id='progressBarContainer']/button[@id='resetButton']")) : null;
         });
         reset.Click();
 
@@ -131,8 +131,8 @@ public sealed class BrowserSequences
         {
             try
             {
-                var element = d.FindElement(By.XPath("//div[@id='progressBarContainer']/child::button[@id='startStopButton']"));
-                return d.FindElement(By.XPath("//div[@id='progressBarContainer']/child::div[@id='progressBar']/child::div[@role='progressbar']"));
+                var element = d.FindElement(By.XPath("//div[@id='progressBarContainer']/button[@id='startStopButton']"));
+                return d.FindElement(By.XPath("//div[@id='progressBar']/div[@role='progressbar']"));
             }
             catch (NoSuchElementException)
             {
@@ -156,7 +156,7 @@ public sealed class BrowserSequences
 
         IWebElement webTables = _wait.Until(d =>
         {
-            var element = d.FindElement(By.XPath("//ul[@class='menu-list']/child::li[descendant::span[text()='Web Tables']]"));
+            var element = d.FindElement(By.XPath("//li[descendant::span[text()='Web Tables']]"));
             return element.Displayed && element.Enabled ? element : null;
         });
         webTables.Click();
@@ -172,7 +172,7 @@ public sealed class BrowserSequences
             {
                 try
                 {
-                    var element = d.FindElement(By.XPath("//div[@id='firstName-wrapper']/descendant::input[@id='firstName']"));
+                    var element = d.FindElement(By.XPath("//input[@id='firstName']"));
                     return element;
                 }
                 catch (NoSuchElementException)
@@ -181,15 +181,15 @@ public sealed class BrowserSequences
                 }
             });
             fName.SendKeys("lala");
-            IWebElement lName = _driver.FindElement(By.XPath("//div[@id='lastName-wrapper']/descendant::input[@id='lastName']"));
+            IWebElement lName = _driver.FindElement(By.XPath("//input[@id='lastName']"));
             lName.SendKeys("lala");
-            IWebElement email = _driver.FindElement(By.XPath("//div[@id='userEmail-wrapper']/descendant::input[@id='userEmail']"));
+            IWebElement email = _driver.FindElement(By.XPath("//input[@id='userEmail']"));
             email.SendKeys("aasd@gmail.com");
-            IWebElement age = _driver.FindElement(By.XPath("//div[@id='age-wrapper']/descendant::input[@id='age']"));
+            IWebElement age = _driver.FindElement(By.XPath("//input[@id='age']"));
             age.SendKeys("559");
-            IWebElement salary = _driver.FindElement(By.XPath("//div[@id='salary-wrapper']/descendant::input[@id='salary']"));
+            IWebElement salary = _driver.FindElement(By.XPath("//input[@id='salary']"));
             salary.SendKeys("559");
-            IWebElement department = _driver.FindElement(By.XPath("//div[@id='department-wrapper']/descendant::input[@id='department']"));
+            IWebElement department = _driver.FindElement(By.XPath("//input[@id='department']"));
             department.SendKeys("lala");
             IWebElement submit = _driver.FindElement(By.XPath("//div[@class='modal-content'][descendant::div[text()='Registration Form']]//button[@id='submit']"));
             submit.Click();
@@ -211,7 +211,7 @@ public sealed class BrowserSequences
         IWebElement delete = _wait.Until(d =>
         {
             var element = d.FindElement(By.XPath("//div[@class='-pagination']/div[@class='-next']/button"));
-            return !element.Enabled ? d.FindElement(By.XPath("//div[@class='rt-tbody']/div[@class='rt-tr-group'][1]//div[@class='action-buttons']/span[@title='Delete']")) : null;
+            return !element.Enabled ? d.FindElement(By.XPath("//div[@class='rt-tr-group'][1]//span[@title='Delete']")) : null;
         });
         ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", delete);
         delete.Click();
