@@ -163,9 +163,9 @@ public sealed class BrowserSequences
 
         IWebElement addition = _driver.FindElement(By.XPath("//button[@id='addNewRecordButton']"));
 
-        while(true)
+        //FIXME Pakeisti i wait until vietoje while
+        IWebElement next = _wait.Until(d =>
         {
-
             addition.Click();
 
             IWebElement fName = _wait.Until(d =>
@@ -181,27 +181,23 @@ public sealed class BrowserSequences
                 }
             });
             fName.SendKeys("lala");
-            IWebElement lName = _driver.FindElement(By.XPath("//input[@id='lastName']"));
+            IWebElement lName = d.FindElement(By.XPath("//input[@id='lastName']"));
             lName.SendKeys("lala");
-            IWebElement email = _driver.FindElement(By.XPath("//input[@id='userEmail']"));
+            IWebElement email = d.FindElement(By.XPath("//input[@id='userEmail']"));
             email.SendKeys("aasd@gmail.com");
-            IWebElement age = _driver.FindElement(By.XPath("//input[@id='age']"));
+            IWebElement age = d.FindElement(By.XPath("//input[@id='age']"));
             age.SendKeys("559");
-            IWebElement salary = _driver.FindElement(By.XPath("//input[@id='salary']"));
+            IWebElement salary = d.FindElement(By.XPath("//input[@id='salary']"));
             salary.SendKeys("559");
-            IWebElement department = _driver.FindElement(By.XPath("//input[@id='department']"));
+            IWebElement department = d.FindElement(By.XPath("//input[@id='department']"));
             department.SendKeys("lala");
-            IWebElement submit = _driver.FindElement(By.XPath("//div[@class='modal-content'][descendant::div[text()='Registration Form']]//button[@id='submit']"));
+            IWebElement submit = d.FindElement(By.XPath("//div[@class='modal-content'][descendant::div[text()='Registration Form']]//button[@id='submit']"));
             submit.Click();
 
-            IWebElement checkIfNewRow = _driver.FindElement(By.XPath("//div[@class='-pagination']/div[@class='-next']/button"));
-            if (checkIfNewRow.Enabled)
-            {
-                break;
-            }
-        }
+            IWebElement checkIfNewRow = d.FindElement(By.XPath("//div[@class='-pagination']/div[@class='-next']/button"));
+            return checkIfNewRow.Enabled ? checkIfNewRow : null;
+        });
 
-        IWebElement next = _driver.FindElement(By.XPath("//div[@class='-pagination']/div[@class='-next']/button"));
         IWebElement random = _driver.FindElement(By.XPath("//div[@class='col-12 mt-4 col-md-6']"));
         random.Click();
         ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", next);
