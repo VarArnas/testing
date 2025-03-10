@@ -9,8 +9,8 @@ public class SeleniumTests
 {
     private IWebDriver _testDriver;
     private WebDriverWait _wait;
-    private string _email;
-    private string _password;
+    private string? _email;
+    private string? _password;
 
     [OneTimeSetUp]
     public void OneTimeSetUp()
@@ -30,12 +30,11 @@ public class SeleniumTests
     [TearDown]
     public void TearDown()
     {
-        _testDriver.Manage().Cookies.DeleteAllCookies();
         _testDriver.Quit();
         _testDriver.Dispose();
     }
 
-    public void createAccount()
+    private void createAccount()
     {
         IWebDriver _driver = new ChromeDriver();
         WebDriverWait _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
