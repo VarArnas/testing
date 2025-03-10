@@ -28,9 +28,9 @@ class Program
 
         try
         {
-            sequences.lab2();
+            //sequences.lab2();
             //sequences.lab3_1();
-            //sequences.lab3_2();
+            sequences.lab3_2();
 
             //testTests(sequences);
             Console.ReadLine();

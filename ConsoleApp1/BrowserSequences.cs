@@ -106,6 +106,7 @@ public sealed class BrowserSequences
         _driver.Navigate().GoToUrl("https://demoqa.com/");
 
         IWebElement widget = _driver.FindElement(By.XPath("//div[@class='card mt-4 top-card'][descendant::h5[text()='Widgets']]"));
+        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", widget);
         widget.Click();
 
         IWebElement progressBar = _wait.Until(d =>
